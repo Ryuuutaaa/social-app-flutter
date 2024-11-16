@@ -5,6 +5,25 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: Center(
+        child: Column(
+            // looogo
+
+            // app name
+
+            // email textfield
+
+            // password textfiedl
+
+            // forget password
+
+            // signt button
+
+            // dont have account? register now
+            ),
+      ),
+    );
   }
 }
