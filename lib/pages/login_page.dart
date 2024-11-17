@@ -13,41 +13,44 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // looogo
-            Icon(
-              Icons.person,
-              size: 80,
-              color: Theme.of(context).colorScheme.inversePrimary,
-            ),
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // looogo
+              Icon(
+                Icons.person,
+                size: 80,
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
 
-            const SizedBox(
-              height: 25,
-            ),
+              const SizedBox(
+                height: 25,
+              ),
 
-            // app name
-            const Text(
-              "M I N I M A L",
-              style: TextStyle(fontSize: 25),
-            ),
+              // app name
+              const Text(
+                "M I N I M A L",
+                style: TextStyle(fontSize: 25),
+              ),
 
-            const SizedBox(
-              height: 25,
-            ),
+              const SizedBox(
+                height: 50,
+              ),
 
-            // email textfield
-            MyTextfield(hinText: "", obsucreText: false, controller: emailController),
+              // email textfield
+              MyTextfield(hinText: "", obsucreText: false, controller: emailController),
 
-            // password textfiedl
+              // password textfiedl
 
-            // forget password
+              // forget password
 
-            // signt button
+              // signt button
 
-            // dont have account? register now
-          ],
+              // dont have account? register now
+            ],
+          ),
         ),
       ),
     );
