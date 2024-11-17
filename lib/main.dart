@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
+      home: LoginPage(),
       theme: lightMode, // Tema terang
       darkTheme: darkMode, // Tema gelap
       themeMode: ThemeMode.system, // Mengikuti pengaturan sistem (terang/gelap)
