@@ -33,6 +33,10 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(fontSize: 25),
             ),
 
+            const SizedBox(
+              height: 25,
+            ),
+
             // email textfield
             MyTextfield(hinText: "", obsucreText: false, controller: emailController),
 

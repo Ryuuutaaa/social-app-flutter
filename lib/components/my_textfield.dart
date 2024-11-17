@@ -9,6 +9,9 @@ class MyTextfield extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField();
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(border: OutlineInputBorder()),
+    );
   }
 }
