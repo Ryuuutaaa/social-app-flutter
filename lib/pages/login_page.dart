@@ -47,9 +47,22 @@ class LoginPage extends StatelessWidget {
               ),
 
               // password textfiedl
-              MyTextfield(hinText: "Password", obsucreText: false, controller: passwordController)
+              MyTextfield(hinText: "Password", obsucreText: false, controller: passwordController),
+
+              const SizedBox(
+                height: 10,
+              ),
 
               // forget password
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Forget Password",
+                    style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                  )
+                ],
+              )
 
               // signt button
 
