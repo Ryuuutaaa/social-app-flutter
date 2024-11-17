@@ -42,7 +42,12 @@ class LoginPage extends StatelessWidget {
               // email textfield
               MyTextfield(hinText: "", obsucreText: false, controller: emailController),
 
+              const SizedBox(
+                height: 10,
+              ),
+
               // password textfiedl
+              MyTextfield(hinText: "", obsucreText: false, controller: passwordController)
 
               // forget password
 
