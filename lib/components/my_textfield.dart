@@ -11,7 +11,13 @@ class MyTextfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      decoration: InputDecoration(border: OutlineInputBorder()),
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        hintText: hinText,
+      ),
+      obscureText: true,
     );
   }
 }
