@@ -16,8 +16,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const LoginPage(),
-      theme: lightMode,
-      darkTheme: darkMode,
+      theme: lightMode, // Tema terang
+      darkTheme: darkMode, // Tema gelap
+      themeMode: ThemeMode.system, // Mengikuti pengaturan sistem (terang/gelap)
     );
   }
 }
