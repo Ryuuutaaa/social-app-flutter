@@ -3,8 +3,8 @@ import 'package:flutter_application_1/components/my_textfield.dart';
 
 class LoginPage extends StatelessWidget {
   // controller
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   LoginPage({super.key});
 
@@ -62,7 +62,11 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(color: Theme.of(context).colorScheme.secondary),
                   )
                 ],
-              )
+              ),
+
+              const SizedBox(
+                height: 25,
+              ),
 
               // signt button
 
