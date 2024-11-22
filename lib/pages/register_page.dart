@@ -9,7 +9,9 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPwController = TextEditingController();
 
-  RegisterPage({super.key});
+  final void Function()? onTap;
+
+  RegisterPage({super.key, this.onTap});
 
   // register method
   void register() {}
@@ -101,7 +103,7 @@ class RegisterPage extends StatelessWidget {
                 children: [
                   const Text("Already have an account?"),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: onTap,
                     child: const Text(
                       "Login here",
                       style: TextStyle(fontWeight: FontWeight.bold),

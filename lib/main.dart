@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/register_page.dart';
 import 'package:flutter_application_1/theme/dark_mode.dart';
 import 'package:flutter_application_1/theme/light_mode.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: RegisterPage(),
       theme: lightMode, // Tema terang
       darkTheme: darkMode, // Tema gelap
       themeMode: ThemeMode.system, // Mengikuti pengaturan sistem (terang/gelap)

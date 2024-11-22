@@ -7,7 +7,8 @@ class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginPage({super.key});
+  final void Function()? onTap;
+  LoginPage({super.key, this.onTap});
 
   void login() {}
 
@@ -85,9 +86,9 @@ class LoginPage extends StatelessWidget {
                 children: [
                   const Text("Dont have an account?"),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: onTap,
                     child: const Text(
-                      " Register here",
+                      "Register here",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   )
