@@ -71,14 +71,10 @@ class LoginPage extends StatelessWidget {
                 height: 25,
               ),
 
-              const SizedBox(
-                height: 25,
-              ),
-
               // signt button
               MyButton(
                 text: "Login",
-                onTab: () {},
+                onTab: login,
               ),
 
               const SizedBox(height: 25),
@@ -91,7 +87,7 @@ class LoginPage extends StatelessWidget {
                   GestureDetector(
                     onTap: () {},
                     child: const Text(
-                      "Register here",
+                      " Register here",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   )

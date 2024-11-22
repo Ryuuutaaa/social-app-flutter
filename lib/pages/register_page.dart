@@ -4,12 +4,14 @@ import 'package:flutter_application_1/components/my_textfield.dart';
 
 class RegisterPage extends StatelessWidget {
   // controller
+  final TextEditingController usernamelController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPwController = TextEditingController();
 
   RegisterPage({super.key});
 
-// register method
+  // register method
   void register() {}
 
   @override
@@ -43,7 +45,13 @@ class RegisterPage extends StatelessWidget {
                 height: 50,
               ),
 
-              // email textfield
+              // username textfield
+              MyTextfield(hinText: "Username", obsucreText: false, controller: usernamelController),
+
+              const SizedBox(
+                height: 10,
+              ),
+
               MyTextfield(hinText: "Email", obsucreText: false, controller: emailController),
 
               const SizedBox(
@@ -52,6 +60,13 @@ class RegisterPage extends StatelessWidget {
 
               // password textfiedl
               MyTextfield(hinText: "Password", obsucreText: false, controller: passwordController),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              // confirm password
+              MyTextfield(hinText: "Confirm Password", obsucreText: false, controller: confirmPwController),
 
               const SizedBox(
                 height: 10,
@@ -72,14 +87,10 @@ class RegisterPage extends StatelessWidget {
                 height: 25,
               ),
 
-              const SizedBox(
-                height: 25,
-              ),
-
               // signt button
               MyButton(
-                text: "Login",
-                onTab: () {},
+                text: "Register",
+                onTab: register,
               ),
 
               const SizedBox(height: 25),
@@ -88,11 +99,11 @@ class RegisterPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Dont have an account?"),
+                  const Text("Already have an account?"),
                   GestureDetector(
                     onTap: () {},
                     child: const Text(
-                      "Register here",
+                      "Login here",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   )
