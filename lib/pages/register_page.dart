@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/my_button.dart';
 import 'package:flutter_application_1/components/my_textfield.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   // controller
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginPage({super.key});
+  RegisterPage({super.key});
 
-  void login() {}
+// register method
+  void register() {}
 
   @override
   Widget build(BuildContext context) {
