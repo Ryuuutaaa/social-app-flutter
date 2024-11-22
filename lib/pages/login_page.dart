@@ -9,6 +9,8 @@ class LoginPage extends StatelessWidget {
 
   LoginPage({super.key});
 
+  void login() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,9 +79,21 @@ class LoginPage extends StatelessWidget {
               MyButton(
                 text: "Login",
                 onTab: () {},
-              )
+              ),
+
+              const SizedBox(height: 25),
 
               // dont have account? register now
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Dont have an account?"),
+                  Text(
+                    "Register here",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                ],
+              )
             ],
           ),
         ),
