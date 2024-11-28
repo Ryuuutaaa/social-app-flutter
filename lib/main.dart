@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/auth/auth.dart';
 import 'package:flutter_application_1/auth/login_or_register.dart';
 import 'package:flutter_application_1/firebase_options.dart';
 import 'package:flutter_application_1/pages/register_page.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoginOrRegister(),
+      home: const AuthPage(),
       theme: lightMode, // Tema terang
       darkTheme: darkMode, // Tema gelap
       themeMode: ThemeMode.system, // Mengikuti pengaturan sistem (terang/gelap)
