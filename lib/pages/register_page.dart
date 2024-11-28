@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/my_button.dart';
 import 'package:flutter_application_1/components/my_textfield.dart';
-import 'package:flutter_application_1/helper/helper_function.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -13,18 +13,15 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // controller
+  // Controllers
   final TextEditingController usernamelController = TextEditingController();
-
   final TextEditingController emailController = TextEditingController();
-
   final TextEditingController passwordController = TextEditingController();
-
   final TextEditingController confirmPwController = TextEditingController();
 
-  // register method
-  void register() {
-    // show loading circle
+  // Register method
+  void register() async {
+    // Show loading circle
     showDialog(
       context: context,
       builder: (context) => const Center(
@@ -32,16 +29,43 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
-    // make sure password macth
-    if (passwordController != confirmPwController) {
-      // new pop circle
+    // Check if fields are empty
+    if (emailController.text.isEmpty || passwordController.text.isEmpty || confirmPwController.text.isEmpty || usernamelController.text.isEmpty) {
       Navigator.pop(context);
-
-      // show errors massage
-      DisplayMassageToUser("Password dont Match!", context);
+      _displayMessageToUser("Please fill in all fields", context);
+      return;
     }
 
-    // tyr creating the user
+    // Check if passwords match
+    if (passwordController.text != confirmPwController.text) {
+      Navigator.pop(context);
+      _displayMessageToUser("Passwords do not match!", context);
+      return;
+    }
+
+    // Try creating the user
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+
+      // Pop loading screen
+      Navigator.pop(context);
+      _displayMessageToUser("Account created successfully!", context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+
+      // Display error message
+      _displayMessageToUser(e.message ?? "An error occurred", context);
+    }
+  }
+
+  // Display a message to the user
+  void _displayMessageToUser(String message, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
   }
 
   @override
@@ -49,97 +73,102 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // looogo
-              Icon(
-                Icons.person,
-                size: 80,
-                color: Theme.of(context).colorScheme.inversePrimary,
-              ),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Logo
+                Icon(
+                  Icons.person,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.inversePrimary,
+                ),
 
-              const SizedBox(
-                height: 25,
-              ),
+                const SizedBox(height: 25),
 
-              // app name
-              const Text(
-                "M I N I M A L",
-                style: TextStyle(fontSize: 25),
-              ),
+                // App name
+                const Text(
+                  "M I N I M A L",
+                  style: TextStyle(fontSize: 25),
+                ),
 
-              const SizedBox(
-                height: 50,
-              ),
+                const SizedBox(height: 50),
 
-              // username textfield
-              MyTextfield(hinText: "Username", obsucreText: false, controller: usernamelController),
+                // Username textfield
+                MyTextfield(
+                  hinText: "Username",
+                  obsucreText: false,
+                  controller: usernamelController,
+                ),
 
-              const SizedBox(
-                height: 10,
-              ),
+                const SizedBox(height: 10),
 
-              MyTextfield(hinText: "Email", obsucreText: false, controller: emailController),
+                // Email textfield
+                MyTextfield(
+                  hinText: "Email",
+                  obsucreText: false,
+                  controller: emailController,
+                ),
 
-              const SizedBox(
-                height: 10,
-              ),
+                const SizedBox(height: 10),
 
-              // password textfiedl
-              MyTextfield(hinText: "Password", obsucreText: false, controller: passwordController),
+                // Password textfield
+                MyTextfield(
+                  hinText: "Password",
+                  obsucreText: true,
+                  controller: passwordController,
+                ),
 
-              const SizedBox(
-                height: 10,
-              ),
+                const SizedBox(height: 10),
 
-              // confirm password
-              MyTextfield(hinText: "Confirm Password", obsucreText: false, controller: confirmPwController),
+                // Confirm password textfield
+                MyTextfield(
+                  hinText: "Confirm Password",
+                  obsucreText: true,
+                  controller: confirmPwController,
+                ),
 
-              const SizedBox(
-                height: 10,
-              ),
+                const SizedBox(height: 10),
 
-              // forget password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    "Forget Password",
-                    style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                  )
-                ],
-              ),
-
-              const SizedBox(
-                height: 25,
-              ),
-
-              // signt button
-              MyButton(
-                text: "Register",
-                onTab: register,
-              ),
-
-              const SizedBox(height: 25),
-
-              // dont have account? register now
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text("Already have an account?"),
-                  GestureDetector(
-                    onTap: widget.onTap,
-                    child: const Text(
-                      " Login here",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                // Forget password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Forget Password",
+                      style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
                     ),
-                  )
-                ],
-              )
-            ],
+                  ],
+                ),
+
+                const SizedBox(height: 25),
+
+                // Register button
+                MyButton(
+                  text: "Register",
+                  onTab: register,
+                ),
+
+                const SizedBox(height: 25),
+
+                // Already have an account?
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Already have an account?"),
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: const Text(
+                        " Login here",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
