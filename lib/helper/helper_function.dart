@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // display error massage to user
-void DisplayErrorMassageToUser(String massage, BuildContext context) {
+void DisplayMassageToUser(String massage, BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(

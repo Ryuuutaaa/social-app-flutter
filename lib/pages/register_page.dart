@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/my_button.dart';
 import 'package:flutter_application_1/components/my_textfield.dart';
+import 'package:flutter_application_1/helper/helper_function.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -37,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
       Navigator.pop(context);
 
       // show errors massage
-      DisplayMassageToUser();
+      DisplayMassageToUser("Password dont Match!", context);
     }
 
     // tyr creating the user
