@@ -34,8 +34,10 @@ class _RegisterPageState extends State<RegisterPage> {
     // make sure password macth
     if (passwordController != confirmPwController) {
       // new pop circle
+      Navigator.pop(context);
 
       // show errors massage
+      DisplayMassageToUser();
     }
 
     // tyr creating the user
