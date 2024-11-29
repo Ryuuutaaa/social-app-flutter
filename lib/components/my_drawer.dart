@@ -56,6 +56,9 @@ class MyDrawer extends StatelessWidget {
                   onTap: () {
                     // this is already the home screen so just pop drawer
                     Navigator.pop(context);
+
+                    // navigate to profile
+                    Navigator.pushNamed(context, "/profile_page");
                   },
                 ),
               ),
@@ -74,6 +77,9 @@ class MyDrawer extends StatelessWidget {
                   onTap: () {
                     // this is already the home screen so just pop drawer
                     Navigator.pop(context);
+
+                    // navigate to name
+                    Navigator.pushNamed(context, "/user_page");
                   },
                 ),
               ),
