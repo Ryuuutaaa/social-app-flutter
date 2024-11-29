@@ -5,11 +5,6 @@ import 'package:flutter_application_1/components/my_drawer.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  // logout user
-  void logout() {
-    FirebaseAuth.instance.signOut();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +13,7 @@ class HomePage extends StatelessWidget {
           "Home",
         ),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        actions: [
-          // logout button
-          IconButton(
-            onPressed: logout,
-            icon: Icon(Icons.logout),
-          )
-        ],
+        elevation: 0,
       ),
       drawer: MyDrawer(),
     );
