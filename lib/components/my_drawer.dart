@@ -11,14 +11,23 @@ class MyDrawer extends StatelessWidget {
         children: [
           // drawer header
           DrawerHeader(
-            child: Icon(Icons.favorite),
+            child: Icon(
+              Icons.favorite,
+              color: Theme.of(context).colorScheme.inversePrimary,
+            ),
           ),
 
           // home tile
           ListTile(
-            leading: Icon(Icons.home),
+            leading: Icon(
+              Icons.home,
+              color: Theme.of(context).colorScheme.inversePrimary,
+            ),
             title: Text("H O M E"),
-            onTap: () {},
+            onTap: () {
+              // this is already the home screen so just pop drawer
+              Navigator.pop(context);
+            },
           )
 
           // profile user
