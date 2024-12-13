@@ -21,6 +21,40 @@ class ProfilePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         elevation: 0,
       ),
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+        future: getUserDetails(),
+        builder: (context, snapsot) {
+          // loading..
+          if (snapsot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          // error
+          else if(snapsot.hasError){
+            return Text("Error :  ${snapsot.error}")
+          }
+
+          // data received
+          else if(snapsot.hasData){
+            // extract data
+            Map<String, dynamic>? user = snapsot.data!.data();
+
+            return Center(
+              child: Column(
+                children: [
+                  Text(user!['email']),
+                  Text(user['username'])
+                ],
+              ),
+            );
+          }else{
+            return Text("No data");
+          }
+        },
+      ),
     );
   }
 }
