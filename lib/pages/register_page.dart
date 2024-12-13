@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/my_button.dart';
 import 'package:flutter_application_1/components/my_textfield.dart';
-import 'package:flutter_application_1/pages/home_page.dart'; // Pastikan ini diubah ke lokasi file HomePage Anda
+import 'package:flutter_application_1/pages/home_page.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()? onTap;
@@ -20,88 +20,80 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPwController = TextEditingController();
 
-  void register() async {
-    // Tampilkan loading dialog
-    showDialog(
-      context: context,
-      builder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
+  bool _isLoading = false;
+
+  // Fungsi untuk menampilkan pesan kepada user
+  void _showMessage(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
     );
+  }
+
+  Future<void> register() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
 
     // Validasi input
-    if (emailController.text.trim().isEmpty || passwordController.text.trim().isEmpty || confirmPwController.text.trim().isEmpty || usernameController.text.trim().isEmpty) {
-      if (mounted) Navigator.pop(context); // Tutup loading dialog
-      _displayMessageToUser("Please fill in all fields", context);
+    if (usernameController.text.trim().isEmpty || emailController.text.trim().isEmpty || passwordController.text.trim().isEmpty || confirmPwController.text.trim().isEmpty) {
+      if (mounted) _showMessage("Please fill in all fields.");
+      if (mounted) setState(() => _isLoading = false);
       return;
     }
 
     if (passwordController.text != confirmPwController.text) {
-      if (mounted) Navigator.pop(context); // Tutup loading dialog
-      _displayMessageToUser("Passwords do not match!", context);
+      if (mounted) _showMessage("Passwords do not match!");
+      if (mounted) setState(() => _isLoading = false);
       return;
     }
 
     try {
-      // Proses registrasi Firebase
-      UserCredential? userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // Firebase Auth
+      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
 
-      // Simpan data ke Firestore
-      await createUserDocument(userCredential);
+      // Firestore
+      await FirebaseFirestore.instance.collection("Users").doc(userCredential.user!.uid).set({
+        'username': usernameController.text.trim(),
+        'email': emailController.text.trim(),
+        'createdAt': FieldValue.serverTimestamp(),
+      });
 
       if (mounted) {
-        Navigator.pop(context); // Tutup loading dialog
-        // Navigasi ke halaman HomePage
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const HomePage()),
         );
       }
     } on FirebaseAuthException catch (e) {
-      if (mounted) Navigator.pop(context); // Tutup loading dialog
-      String message;
+      String errorMessage;
       switch (e.code) {
         case 'email-already-in-use':
-          message = "This email is already registered.";
+          errorMessage = "This email is already registered.";
           break;
         case 'invalid-email':
-          message = "The email address is invalid.";
+          errorMessage = "The email address is invalid.";
           break;
         case 'weak-password':
-          message = "The password is too weak.";
+          errorMessage = "The password is too weak.";
           break;
         default:
-          message = e.message ?? "An unknown error occurred.";
+          errorMessage = "An unexpected error occurred: ${e.message}";
       }
-      _displayMessageToUser(message, context);
+      if (mounted) _showMessage(errorMessage);
+    } catch (e) {
+      if (mounted) _showMessage("An unexpected error occurred. Please try again.");
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
-  }
-
-  Future<void> createUserDocument(UserCredential? userCredential) async {
-    if (userCredential != null && userCredential.user != null) {
-      await FirebaseFirestore.instance.collection("Users").doc(userCredential.user!.uid).set({
-        'email': userCredential.user!.email,
-        'username': usernameController.text,
-      });
-    }
-  }
-
-  void _displayMessageToUser(String message, BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -149,19 +141,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   obsucreText: true,
                   controller: confirmPwController,
                 ),
-                const SizedBox(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    // Arahkan ke halaman lupa password
-                  },
-                  child: Text(
-                    "Forget Password",
-                    style: TextStyle(color: Theme.of(context).colorScheme.inversePrimary),
-                  ),
-                ),
                 const SizedBox(height: 25),
                 MyButton(
-                  text: "Register",
+                  text: _isLoading ? "Registering..." : "Register",
                   onTab: register,
                 ),
                 const SizedBox(height: 25),
