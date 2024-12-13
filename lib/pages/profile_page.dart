@@ -5,53 +5,83 @@ import 'package:flutter/material.dart';
 class ProfilePage extends StatelessWidget {
   ProfilePage({super.key});
 
-  // current logged in use
+  // Current logged-in user
   final User? currentUser = FirebaseAuth.instance.currentUser;
 
-  // future to fetch user details
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserDetails() async {
-    return await FirebaseFirestore.instance.collection("Users").doc(currentUser!.email).get();
+  // Future to fetch user details
+  Future<Map<String, dynamic>?> getUserDetails() async {
+    if (currentUser == null) {
+      throw Exception("User is not logged in");
+    }
+
+    // Fetch user document from Firestore using UID
+    final doc = await FirebaseFirestore.instance.collection("Users").doc(currentUser!.uid).get();
+
+    return doc.data();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile"),
+        title: const Text("Profile"),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         elevation: 0,
       ),
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      body: FutureBuilder<Map<String, dynamic>?>(
         future: getUserDetails(),
-        builder: (context, snapsot) {
-          // loading..
-          if (snapsot.connectionState == ConnectionState.waiting) {
+        builder: (context, snapshot) {
+          // Loading state
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
-          // error
-          else if(snapsot.hasError){
-            return Text("Error :  ${snapsot.error}")
-          }
-
-          // data received
-          else if(snapsot.hasData){
-            // extract data
-            Map<String, dynamic>? user = snapsot.data!.data();
-
+          // Error state
+          else if (snapshot.hasError) {
             return Center(
-              child: Column(
-                children: [
-                  Text(user!['email']),
-                  Text(user['username'])
-                ],
+              child: Text(
+                "Error: ${snapshot.error}",
+                style: const TextStyle(color: Colors.red),
               ),
             );
-          }else{
-            return Text("No data");
+          }
+
+          // Data received
+          else if (snapshot.hasData) {
+            final user = snapshot.data;
+
+            if (user == null) {
+              return const Center(
+                child: Text("No user data found."),
+              );
+            }
+
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Email: ${user['email'] ?? 'N/A'}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      "Username: ${user['username'] ?? 'N/A'}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return const Center(
+              child: Text("No data available."),
+            );
           }
         },
       ),
